@@ -1,0 +1,24 @@
+{
+	"name": "cloudflare-r2",
+	"version": "0.0.0",
+	"private": true,
+	"scripts": {
+		"deploy": "wrangler deploy",
+		"dev": "wrangler dev",
+		"start": "wrangler dev",
+		"browse": "node scripts/browse-r2.js",
+		"manage": "node scripts/manage-r2.js",
+		"bulk-upload": "node scripts/bulk-upload.js",
+		"test": "node scripts/test-connection.js"
+	},
+	"dependencies": {
+		"@aws-sdk/client-s3": "^3.888.0",
+		"@aws-sdk/s3-request-presigner": "^3.901.0",
+		"dotenv": "^17.2.2"
+	},
+	"devDependencies": {
+		"wrangler": "^4.40.2",
+		"@types/node": "^20.0.0",
+		"typescript": "^5.0.0"
+	}
+}

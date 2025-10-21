@@ -1,0 +1,65 @@
+# wrangler.toml
+
+# ————————————————————————————————
+# Global (default) build & publish settings
+# ————————————————————————————————
+name              = "v2u"
+main              = "src/index.js"
+compatibility_date = "2025-09-29"
+account_id        = "d54e57481e824e8752d0f6caa9b37ba7"
+workers_dev       = false
+
+[[r2_buckets]]
+binding     = "MEDIA_BUCKET"
+bucket_name = "media"
+
+[[r2_buckets]]
+binding     = "PRIVATE_BUCKET"
+bucket_name = "private"
+
+# ————————————————————————————————
+# Production-only overrides
+# ————————————————————————————————
+[env.production]
+name        = "v2u"
+
+[[kv_namespaces]]
+binding = "v2u-kv"
+id = "3c40aed9e67b479eb28a271c547e43d4"
+
+[[env.production.r2_buckets]]
+binding     = "MEDIA_BUCKET"
+bucket_name = "media"
+
+[[env.production.r2_buckets]]
+binding     = "PRIVATE_BUCKET"
+bucket_name = "private"
+
+[env.production.vars]
+CF_ACCOUNT_ID             = "d54e57481e824e8752d0f6caa9b37ba7"
+CF_ACCOUNT_HASH           = "d54e57481e824e8752d0f6caa9b37ba7"
+R2_BUCKET_MEDIA           = "media"
+R2_BUCKET_PRIVATE         = "private"
+R2_ENDPOINT_HOST          = "d54e57481e824e8752d0f6caa9b37ba7.r2.cloudflarestorage.com"
+R2_REGION                 = "auto"
+WORKER_ENV                = "production"
+HOST_MEDIA                = "media.v2u.us"
+HOST_PRIVATE              = "private.v2u.us"
+SIGNED_URL_TTL_SECONDS    = "300"
+CACHE_CONTROL_PUBLIC      = "public, max-age=31536000, immutable"
+CACHE_CONTROL_PRIVATE     = "private, max-age=60, must-revalidate"
+S3_ENDPOINT_URL           = "https://d54e57481e824e8752d0f6caa9b37ba7.r2.cloudflarestorage.com"
+S3_FORCE_PATH_STYLE       = "true"
+
+# ————————————————————————————————
+# Observability and Logging
+# ————————————————————————————————
+[tracing]
+enabled = true
+head_sampling_rate = 1
+
+[logs]
+enabled = true
+head_sampling_rate = 1
+persist = true
+invocation_logs = true
