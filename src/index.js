@@ -1,3 +1,7 @@
+// cloudflare-r2/src/index.js
+// A Cloudflare Worker to serve files from R2 with public and private buckets,
+// signed URL support, and write protection via an auth key.
+
 export default {
   async fetch(request, env) {
     const url = new URL(request.url);
@@ -5,20 +9,29 @@ export default {
     const method = request.method.toUpperCase();
 
     // Config from bindings/env
-    const PUBLIC_BUCKET = env.PUBLIC_BUCKET;
-    const PRIVATE_BUCKET = env.PRIVATE_BUCKET;
+    const R2_BUCKET_PUBLIC = env.R2_BUCKET_PUBLIC;
+    const R2_BUCKET_PRIVATE = env.R2_BUCKET_PRIVATE;
+    const R2_BUCKET_SOURCES = env.R2_BUCKET_SOURCES;
+    const R2_BUCKET_PROMOS = env.R2_BUCKET_PROMOS;
     const AUTH_KEY = env.AUTH_KEY;
     const SIGNING_SECRET_BASE64 = env.SIGNING_SECRET_BASE64;
     const SIGNED_URL_TTL_SECONDS = Number(env.SIGNED_URL_TTL_SECONDS || 300);
     const CACHE_CONTROL_PUBLIC = env.CACHE_CONTROL_PUBLIC || "public, max-age=31536000, immutable";
     const CACHE_CONTROL_PRIVATE = env.CACHE_CONTROL_PRIVATE || "private, max-age=60, must-revalidate";
 
-    // Determine bucket and access mode
-    const isPublic =
-      url.hostname.startsWith("public") ||
-      url.hostname === "127.0.0.1" ||
-      url.hostname === "localhost";
-    const bucket = isPublic ? PUBLIC_BUCKET : PRIVATE_BUCKET;
+    // Determine bucket based on hostname
+    let bucket;
+    if (url.hostname.startsWith("public") || url.hostname === "127.0.0.1" || url.hostname === "localhost") {
+      bucket = R2_BUCKET_PUBLIC;
+    } else if (url.hostname.startsWith("private")) {
+      bucket = R2_BUCKET_PRIVATE;
+    } else if (url.hostname.startsWith("sources")) {
+      bucket = R2_BUCKET_SOURCES;
+    } else if (url.hostname.startsWith("promos")) {
+      bucket = R2_BUCKET_PROMOS;
+    } else {
+      return new Response("Unknown host", { status: 400 });
+    }
 
     function base64urlToUint8Array(b64url) {
       const b64 = b64url.replace(/-/g, "+").replace(/_/g, "/");
