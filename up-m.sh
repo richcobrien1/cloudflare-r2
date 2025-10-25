@@ -39,7 +39,7 @@ URL="https://$CLOUDFLARE_ACCOUNT_ID.r2.cloudflarestorage.com/public/$KEY"
 # Output JSON for automation
 cat <<EOF
 {
-  "bucket": "media",
+  "bucket": "public",
   "filename": "$BASENAME",
   "key": "$KEY",
   "url": "$URL"
