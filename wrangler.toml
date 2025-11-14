@@ -51,8 +51,6 @@ bucket_name = "promos"
 [env.production.vars]
 CF_ACCOUNT_ID             = "d54e57481e824e8752d0f6caa9b37ba7"
 CF_ACCOUNT_HASH           = "d54e57481e824e8752d0f6caa9b37ba7"
-R2_BUCKET_PUBLIC          = "public"
-R2_BUCKET_PRIVATE         = "private"
 R2_ENDPOINT_HOST          = "d54e57481e824e8752d0f6caa9b37ba7.r2.cloudflarestorage.com"
 R2_REGION                 = "auto"
 WORKER_ENV                = "production"

@@ -1,0 +1,10 @@
+{
+  "rules": [
+    {
+      "allowedOrigins": ["https://www.v2u.us", "https://v2u.us", "http://localhost:3000", "http://localhost:3001"],
+      "allowedMethods": ["GET", "PUT", "POST", "HEAD", "DELETE"],
+      "allowedHeaders": ["Content-Type", "Authorization", "x-amz-*", "x-amz-date", "x-amz-content-sha256"],
+      "maxAgeSeconds": 3600
+    }
+  ]
+}

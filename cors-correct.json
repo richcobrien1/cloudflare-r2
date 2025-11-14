@@ -1,0 +1,9 @@
+{
+  "rules": [
+    {
+      "allowedOrigins": ["https://www.v2u.us", "http://localhost:3000"],
+      "allowedMethods": ["GET", "PUT", "POST", "DELETE", "HEAD"],
+      "allowedHeaders": ["*"]
+    }
+  ]
+}
